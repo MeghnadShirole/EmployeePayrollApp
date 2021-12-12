@@ -23,9 +23,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const date = document.querySelector('#date');
     date.addEventListener('input', function() {
-        const startDate = Date.parse(getInputValueById('#day') + " " +
-            getInputValueById('#month') + " " +
-            getInputValueById('#year'));
+        const startDate = new Date(Date.parse(getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year')));
         try {
             (new EmployeePayrollData()).start_date = startDate;
             setTextValue('.date-error', "");
@@ -61,7 +59,6 @@ const createEmployeePayroll = () => {
     let date = getInputValueById('#day') + " " + getInputValueById('#month') + " " +
         getInputValueById('#year');
     employeePayrollData.start_date = Date.parse(date);
-    employeePayrollData.start_date = Date.parse(startDate);
     alert(employeePayrollData.toString());
     return employeePayrollData;
 }
@@ -82,6 +79,7 @@ const getInputValueById = (id) => {
 }
 
 function createAndUpdateStorage(employeePayrollData) {
+    // localStorage.clear();
     let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
     if (employeePayrollList != undefined) {
         employeePayrollList.push(employeePayrollData);
