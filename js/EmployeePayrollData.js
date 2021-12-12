@@ -4,7 +4,7 @@ class EmployeePayrollData {
     }
 
     set name(name) {
-        let nameRegex = RegExp("^[A-Z]{1}[a-z]{2,}$");
+        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
         if (nameRegex.test(name))
             this._name = name;
         else throw "Name is incorrect";
@@ -55,13 +55,18 @@ class EmployeePayrollData {
     }
 
     set start_date(start_date) {
-        this._start_date = start_date;
+        let now = new Date();
+        now = Date.parse(now);
+        if (start_date > now) {
+            throw 'Start Date is Future date!';
+        } else {
+            this._start_date = start_date;
+        }
     }
 
     toString() {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const empDate = !this.start_date ? "undefined" : this.start_date.toLocaleDateString("en-US", options);
         return 'Name = ' + this.name + ", Gender = " + this.gender + ", ProfilePic = " + this.profilePic +
-            ", Department = " + this.department + ", Salary = " + this.salary + ", StartDate = " + empDate + ", Note = " + this.note;
+            ", Department = " + this.department + ", Salary = " + this.salary +
+            ", StartDate = " + this.start_date + ", Note = " + this.note;
     }
 }
